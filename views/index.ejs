@@ -1,0 +1,264 @@
+<script>
+	function main() {
+		var S = document.getElementById("strength").value;
+		var P = document.getElementById("perception").value;
+		var E = document.getElementById("endurance").value;
+		var C = document.getElementById("charisma").value;
+		var I = document.getElementById("intelligence").value;
+		var A = document.getElementById("agility").value;
+		var L = document.getElementById("luck").value;
+
+		if (!(S == "" || P == "" || E == "" || C == "" || I == "" || A == "" || L == "")) {
+			S = parseInt(S);
+			P = parseInt(P);
+			E = parseInt(E);
+			C = parseInt(C);
+			I = parseInt(I);
+			A = parseInt(A);
+			L = parseInt(L);
+
+			if ((S + P + E + C + I + A + L) != 21) {
+				alert("Attenzione! Assegnazione errata punti")
+			}
+
+			if (S == 5) {
+				document.getElementById("CaricoMassimoValue").innerText = 50;
+				document.getElementById("DannoCQCValue").innerText = 2
+			}
+			else {
+				document.getElementById("CaricoMassimoValue").innerText = 5 + ((S - 1) * 10)
+				document.getElementById("DannoCQCValue").innerText = Math.floor(S / 2) - 1
+			}
+
+
+			if (P == 1) {
+				document.getElementById("PrecisioneValue").innerText = -50;
+				document.getElementById("PrecisionePDValue").innerText = -50;
+			}
+			else if (P == 5) {
+				document.getElementById("PrecisioneValue").innerText = 50;
+				document.getElementById("PrecisionePDValue").innerText = 50;
+			}
+			else {
+				document.getElementById("PrecisioneValue").innerText = (P - 3) * 20
+				document.getElementById("PrecisionePDValue").innerText = (P - 2) * 10
+			}
+
+			if (E == 5) { document.getElementById("StaminaValue").innerText = 6 }
+			else { document.getElementById("StaminaValue").innerText = E }
+			document.getElementById("CuraValue").innerText = Math.floor(E / 2)
+
+			document.getElementById("ReputazioneValue").innerText = (C * 100) / 5
+
+			document.getElementById("SopravvivenzaCriticaValue").innerText = Math.floor(L / 2) + I
+
+			if (A == 5) { document.getElementById("RicaricaValue").innerText = 20 }
+			else { document.getElementById("RicaricaValue").innerText = (A - 1) * 4 }
+
+			//--------------------------------------------------// Skills
+
+			document.getElementById("BloccoValue").innerText = (Math.floor(S / 2) + Math.floor(A / 2) - 1) * 2
+			document.getElementById("SchivataValue").innerText = (Math.floor(P / 2) + Math.floor(A / 2) - 1) * 2
+
+			document.getElementById("PersuasioneValue").innerText = (Math.floor(C / 2) + Math.floor(I / 2) - 1) * 2
+			document.getElementById("IntimidazioneValue").innerText = (Math.floor(S / 2) + ((C - 2) * 2) - 1) * 2
+			document.getElementById("IngannoValue").innerText = (Math.floor(P / 2) + Math.floor(C / 2) + Math.floor(I / 2) - 2) * 2
+
+			document.getElementById("FurtoValue").innerText = (Math.floor(P / 2) + Math.floor(I / 2) + Math.floor(A / 2) - 2) * 2
+			document.getElementById("HackValue").innerText = (Math.floor(C / 2) + ((I - 2) * 2) - 1) * 2
+
+			document.getElementById("IngegneriaValue").innerText = (Math.floor(P / 2) + ((I - 2) * 2) - 1) * 2
+			document.getElementById("MedicinaValue").innerText = (Math.floor(E / 2) + Math.floor(I / 2) - 1) * 2
+
+			document.getElementById("StealthValue").innerText = (Math.floor(E / 2) + Math.floor(A / 2) - 1) * 2
+			document.getElementById("FugaValue").innerText = (((E - 2) * 2) + Math.floor(A / 2) - 1) * 2
+		}
+	}
+</script>
+
+<div class="container-fluid my-3">
+	<form onsubmit="return false">
+		<div class="form-row align-items-center">
+			<div class="col-lg">
+				<label class="sr-only" for="strength">Strength</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">S</div>
+					</div>
+					<input type="number" class="form-control" name="strength" id="strength" min="1" max="5" placeholder="trength"
+						value="3" required>
+				</div>
+			</div>
+
+			<div class="col-lg">
+				<label class="sr-only" for="perception">Perception</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">P</div>
+					</div>
+					<input type="number" class="form-control" name="perception" id="perception" min="1" max="5"
+						placeholder="erception" value="3" required>
+				</div>
+			</div>
+
+			<div class="col-lg">
+				<label class="sr-only" for="endurance">Endurance</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">E</div>
+					</div>
+					<input type="number" class="form-control" name="endurance" id="endurance" min="1" max="5"
+						placeholder="ndurance" value="3" required>
+				</div>
+			</div>
+
+			<div class="col-lg">
+				<label class="sr-only" for="charisma">Charisma</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">C</div>
+					</div>
+					<input type="number" class="form-control" name="charisma" id="charisma" min="1" max="5" placeholder="harisma"
+						value="3" required>
+				</div>
+			</div>
+
+			<div class="col-lg">
+				<label class="sr-only" for="intelligence">Intelligence</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">I</div>
+					</div>
+					<input type="number" class="form-control" name="intelligence" id="intelligence" min="1" max="5"
+						placeholder="ntelligence" value="3" required>
+				</div>
+			</div>
+
+			<div class="col-lg">
+				<label class="sr-only" for="agility">Agility</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">A</div>
+					</div>
+					<input type="number" class="form-control" name="agility" id="agility" min="1" max="5" placeholder="gility"
+						value="3" required>
+				</div>
+			</div>
+
+			<div class="col-lg">
+				<label class="sr-only" for="luck">Luck</label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">L</div>
+					</div>
+					<input type="number" class="form-control" name="luck" id="luck" min="1" max="5" placeholder="uck" value="3"
+						required>
+				</div>
+			</div>
+
+			<div class="col-lg-auto">
+				<label class="sr-only" for="calcola">Calcola</label>
+				<button onclick="main()" type="submit" class="btn btn-primary mb-2" id="calcola">Calcola</button>
+			</div>
+		</div>
+	</form>
+
+	<div class="m-3"></div>
+
+	<div>
+		<p class="h3">Caratteristiche personaggio</p>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Carico massimo: <span id="CaricoMassimoValue">0</span>kg</p>
+			</div>
+			<div class="col-lg">
+				<p>Danno CQC: <span id="DannoCQCValue">0</span></p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Precisione: <span id="PrecisioneValue">0</span>%</p>
+			</div>
+			<div class="col-lg">
+				<p>Precisione PD: <span id="PrecisionePDValue">0</span>%</p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Azioni per turno: <span id="StaminaValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Recupero salute con medikit: <span id="CuraValue">0</span></p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Reputazione: <span id="ReputazioneValue">0</span>%</p>
+			</div>
+			<div class="col-lg">
+				<p>Sopravvivenza critica: <span id="SopravvivenzaCriticaValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Ricarica armi: <span id="RicaricaValue">0</span></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="m-3"></div>
+
+	<div>
+		<p class="h3">skills</p>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Blocco: <span id="BloccoValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Schivata: <span id="SchivataValue">0</span></p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Persuasione: <span id="PersuasioneValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Intimidazione: <span id="IntimidazioneValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Inganno: <span id="IngannoValue">0</span></p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Furto: <span id="FurtoValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Hack: <span id="HackValue">0</span></p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Ingegneria: <span id="IngegneriaValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Medicina: <span id="MedicinaValue">0</span></p>
+			</div>
+		</div>
+
+		<div class="row align-items-center lead">
+			<div class="col-lg">
+				<p>Stealth: <span id="StealthValue">0</span></p>
+			</div>
+			<div class="col-lg">
+				<p>Fuga: <span id="FugaValue">0</span></p>
+			</div>
+		</div>
+	</div>
+</div>
