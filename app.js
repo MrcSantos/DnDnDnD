@@ -4,8 +4,14 @@ const app = require("./config").app;
 //--------------------------------------------------//--------------------------------------------------// Routes
 
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
+const charactersRouter = require('./routes/characters');
+const playRouter = require('./routes/play');
 
 app.use('/', indexRouter);
+app.use('/user', userRouter);
+app.use('/characters', charactersRouter);
+app.use('/play', playRouter);
 
 //--------------------------------------------------//--------------------------------------------------// Error catch
 
