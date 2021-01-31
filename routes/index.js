@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/info', (req, res) => {
-	res.render("index")
+	res.render("info")
 });
 
 module.exports = router;
