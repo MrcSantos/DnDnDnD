@@ -4,7 +4,7 @@ const cel = require('connect-ensure-login');
 
 /* GET home page. */
 router.get('/', (req, res) => {
-	res.render("index")
+	res.render("characters/SPECIALCalculator")
 });
 
 module.exports = router;
