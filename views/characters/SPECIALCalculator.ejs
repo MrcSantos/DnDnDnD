@@ -62,21 +62,21 @@
 
 			//--------------------------------------------------// Skills
 
-			document.getElementById("BloccoValue").innerText = (Math.floor(S / 2) + Math.floor(A / 2) - 1) * 2
-			document.getElementById("SchivataValue").innerText = (Math.floor(P / 2) + Math.floor(A / 2) - 1) * 2
+			document.getElementById("BloccoValue").innerText = ((Math.floor(S / 2) + Math.floor(A / 2) - 1) * 2) * 3
+			document.getElementById("SchivataValue").innerText = ((Math.floor(P / 2) + Math.floor(A / 2) - 1) * 2) * 3
 
-			document.getElementById("PersuasioneValue").innerText = (Math.floor(C / 2) + Math.floor(I / 2) - 1) * 2
-			document.getElementById("IntimidazioneValue").innerText = (Math.floor(S / 2) + ((C - 2) * 2) - 1)
-			document.getElementById("IngannoValue").innerText = (Math.floor(P / 2) + Math.floor(C / 2) + Math.floor(I / 2) - 2) * 2
+			document.getElementById("PersuasioneValue").innerText = ((Math.floor(C / 2) + Math.floor(I / 2) - 1) * 2) * 3
+			document.getElementById("IntimidazioneValue").innerText = (((Math.floor(S / 2) + ((C - 2) * 2) - 1)) * 3)
+			document.getElementById("IngannoValue").innerText = ((Math.floor(P / 2) + Math.floor(C / 2) + Math.floor(I / 2) - 2) * 2) * 2.5
 
-			document.getElementById("FurtoValue").innerText = (Math.floor(P / 2) + Math.floor(I / 2) + Math.floor(A / 2) - 2) * 2
-			document.getElementById("HackValue").innerText = (Math.floor(C / 2) + ((I - 2) * 2) - 1)
+			document.getElementById("FurtoValue").innerText = ((Math.floor(P / 2) + Math.floor(I / 2) + Math.floor(A / 2) - 2) * 2) * 2.5
+			document.getElementById("HackValue").innerText = (((Math.floor(C / 2) + ((I - 2) * 2) - 1)) * 3)
 
-			document.getElementById("IngegneriaValue").innerText = (Math.floor(P / 2) + ((I - 2) * 2) - 1)
-			document.getElementById("MedicinaValue").innerText = (Math.floor(E / 2) + Math.floor(I / 2) - 1) * 2
+			document.getElementById("IngegneriaValue").innerText = ((Math.floor(P / 2) + ((I - 2) * 2) - 1)) * 3
+			document.getElementById("MedicinaValue").innerText = ((Math.floor(E / 2) + Math.floor(I / 2) - 1) * 2) * 3
 
-			document.getElementById("StealthValue").innerText = (Math.floor(E / 2) + Math.floor(A / 2) - 1) * 2
-			document.getElementById("FugaValue").innerText = (((E - 2) * 2) + Math.floor(A / 2) - 1)
+			document.getElementById("StealthValue").innerText = ((Math.floor(E / 2) + Math.floor(A / 2) - 1) * 2) * 3
+			document.getElementById("FugaValue").innerText = ((((E - 2) * 2) + Math.floor(A / 2) - 1)) * 3
 		}
 	}
 </script>
@@ -94,8 +94,8 @@
 					<div class="input-group-prepend">
 						<div class="input-group-text">S</div>
 					</div>
-					<input type="number" class="form-control" name="strength" id="strength" min="1" max="5"
-						placeholder="trength" required>
+					<input type="number" class="form-control" name="strength" id="strength" min="1" max="5" placeholder="trength"
+						required>
 				</div>
 			</div>
 
@@ -127,8 +127,8 @@
 					<div class="input-group-prepend">
 						<div class="input-group-text">C</div>
 					</div>
-					<input type="number" class="form-control" name="charisma" id="charisma" min="1" max="5"
-						placeholder="harisma" required>
+					<input type="number" class="form-control" name="charisma" id="charisma" min="1" max="5" placeholder="harisma"
+						required>
 				</div>
 			</div>
 
