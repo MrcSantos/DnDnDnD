@@ -57,26 +57,51 @@
 
 			document.getElementById("SopravvivenzaCriticaValue").innerText = Math.floor(L / 2) + I
 
-			if (A == 5) { document.getElementById("RicaricaValue").innerText = 20 }
+			if (A == 5) { document.getElementById("RicaricaValue").innerText = "INSTANT" }
 			else { document.getElementById("RicaricaValue").innerText = (A - 1) * 4 }
 
 			//--------------------------------------------------// Skills
 
-			document.getElementById("BloccoValue").innerText = ((Math.floor(S / 2) + Math.floor(A / 2) - 1) * 2) * 3
-			document.getElementById("SchivataValue").innerText = ((Math.floor(P / 2) + Math.floor(A / 2) - 1) * 2) * 3
+			if (((Math.floor(S / 2) + Math.floor(A / 2) - 1) * 2) * 3 >= 20) { document.getElementById("BloccoValue").innerText = "INSTANT" }
+			else { document.getElementById("BloccoValue").innerText = ((Math.floor(S / 2) + Math.floor(A / 2) - 1) * 2) * 3 }
 
-			document.getElementById("PersuasioneValue").innerText = ((Math.floor(C / 2) + Math.floor(I / 2) - 1) * 2) * 3
-			document.getElementById("IntimidazioneValue").innerText = (((Math.floor(S / 2) + ((C - 2) * 2) - 1)) * 3)
-			document.getElementById("IngannoValue").innerText = ((Math.floor(P / 2) + Math.floor(C / 2) + Math.floor(I / 2) - 2) * 2) * 2.5
+			if (((Math.floor(P / 2) + Math.floor(A / 2) - 1) * 2) * 3 >= 20) { document.getElementById("SchivataValue").innerText = "INSTANT" }
+			else { document.getElementById("SchivataValue").innerText = ((Math.floor(P / 2) + Math.floor(A / 2) - 1) * 2) * 3 }
 
-			document.getElementById("FurtoValue").innerText = ((Math.floor(P / 2) + Math.floor(I / 2) + Math.floor(A / 2) - 2) * 2) * 2.5
-			document.getElementById("HackValue").innerText = (((Math.floor(C / 2) + ((I - 2) * 2) - 1)) * 3)
 
-			document.getElementById("IngegneriaValue").innerText = ((Math.floor(P / 2) + ((I - 2) * 2) - 1)) * 3
-			document.getElementById("MedicinaValue").innerText = ((Math.floor(E / 2) + Math.floor(I / 2) - 1) * 2) * 3
 
-			document.getElementById("StealthValue").innerText = ((Math.floor(E / 2) + Math.floor(A / 2) - 1) * 2) * 3
-			document.getElementById("FugaValue").innerText = ((((E - 2) * 2) + Math.floor(A / 2) - 1)) * 3
+			if (((Math.floor(C / 2) + Math.floor(I / 2) - 1) * 2) * 3 >= 20) { document.getElementById("PersuasioneValue").innerText = "INSTANT" }
+			else { document.getElementById("PersuasioneValue").innerText = ((Math.floor(C / 2) + Math.floor(I / 2) - 1) * 2) * 3 }
+
+			if (((Math.floor(S / 2) + ((C - 2) * 2) - 1)) * 3 >= 20) { document.getElementById("IntimidazioneValue").innerText = "INSTANT" }
+			else { document.getElementById("IntimidazioneValue").innerText = ((Math.floor(S / 2) + ((C - 2) * 2) - 1)) * 3 }
+
+			if (((Math.floor(P / 2) + Math.floor(C / 2) + Math.floor(I / 2) - 2) * 2) * 2.5 >= 20) { document.getElementById("IngannoValue").innerText = "INSTANT" }
+			else { document.getElementById("IngannoValue").innerText = ((Math.floor(P / 2) + Math.floor(C / 2) + Math.floor(I / 2) - 2) * 2) * 2.5 }
+
+
+
+			if (((Math.floor(P / 2) + Math.floor(I / 2) + Math.floor(A / 2) - 2) * 2) * 2.5 >= 20) { document.getElementById("FurtoValue").innerText = "INSTANT" }
+			else { document.getElementById("FurtoValue").innerText = ((Math.floor(P / 2) + Math.floor(I / 2) + Math.floor(A / 2) - 2) * 2) * 2.5 }
+
+			if (((Math.floor(C / 2) + ((I - 2) * 2) - 1)) * 3 >= 20) { document.getElementById("HackValue").innerText = "INSTANT" }
+			else { document.getElementById("HackValue").innerText = ((Math.floor(C / 2) + ((I - 2) * 2) - 1)) * 3 }
+
+
+
+			if (((Math.floor(P / 2) + ((I - 2) * 2) - 1)) * 3 >= 20) { document.getElementById("IngegneriaValue").innerText = "INSTANT" }
+			else { document.getElementById("IngegneriaValue").innerText = ((Math.floor(P / 2) + ((I - 2) * 2) - 1)) * 3 }
+
+			if (((Math.floor(E / 2) + Math.floor(I / 2) - 1) * 2) * 3 >= 20) { document.getElementById("MedicinaValue").innerText = "INSTANT" }
+			else { document.getElementById("MedicinaValue").innerText = ((Math.floor(E / 2) + Math.floor(I / 2) - 1) * 2) * 3 }
+
+
+
+			if (((Math.floor(E / 2) + Math.floor(A / 2) - 1) * 2) * 3 >= 20) { document.getElementById("StealthValue").innerText = "INSTANT" }
+			else { document.getElementById("StealthValue").innerText = ((Math.floor(E / 2) + Math.floor(A / 2) - 1) * 2) * 3 }
+
+			if (((((E - 2) * 2) + Math.floor(A / 2) - 1)) * 3 >= 20) { document.getElementById("FugaValue").innerText = "INSTANT" }
+			else { document.getElementById("FugaValue").innerText = ((((E - 2) * 2) + Math.floor(A / 2) - 1)) * 3 }
 		}
 	}
 </script>
