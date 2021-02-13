@@ -1,0 +1,303 @@
+<% include ../partials/InfoUserHeader %>
+
+	<div class="container-fluid my-3">
+		<p class="display-4" style="color: #ff2426;">DnDnDnD weapons translator</p>
+
+		<div class="m-4"></div>
+
+		<div class="d-flex flex-column flex-md-row justify-content-around align-items-center">
+			<div>
+				<p class="lead">Inserisci il game object</p>
+				<form onsubmit="return false">
+					<textarea name="input" id="input" cols="80" rows="20"></textarea>
+					<br>
+					<button type="submit" onclick="traduci()">Traduci</button>
+				</form>
+			</div>
+
+			<div class="border p-5">
+				<p id="output">Traduci un game object</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const ENUM = {
+			UNSET: 0,
+			TYPE: {
+				CQC1h: "\"CQC1h\"",
+				CQC2h: "\"CQC2h\"",
+				RGDCQC: "\"RGDCQC\"",
+				RGD1h: "\"RGD1h\"",
+				RGD2h: "\"RGD2h\"",
+				RGDhh: "\"RGDhh\""
+			},
+			CLASS: {
+				CQC: "\"CQC\"",
+				PISTOL: "\"Pistola\"",
+				SHOTGUN: "\"Shotgun\"",
+				SMG: "\"SMG\"",
+				ASSAULTRIFLE: "\"Fucile\" d'assalto",
+				SNIPER: "\"Fucile\" cecchino",
+				LMG: "\"LMG\"",
+				MINIGUN: "\"Minigun\"",
+				EXPLOSIVE: "\"Esplosivo\"",
+				OTHER: "\"Altro\"",
+				ATTACHMENT: "\"Accessorio\""
+			},
+			RANGE: {
+				CQC: "\"CQC\"",
+				LOWRNG: "\"Basso\"",
+				MEDIUMRNG: "\"Medio\"",
+				LONGRNG: "\"Lungo\"",
+				VLONGRNG: "\"Molto\" lungo",
+				XTREMERNG: "\"Estremo\""
+			},
+			DAMAGE: {
+				STUNDMG: "\"Nullo\"",
+				LOWDMG: "\"Basso\"",
+				MEDIUMDMG: "\"Medio\"",
+				HIGHDMG: "\"Alto\"",
+				VHIGHDMG: "\"Molto\" alto",
+				OHKDMG: "\"OHK\""
+			},
+			FIRERATE: {
+				CQC: "\"CQC\"",
+				BOLTACTION: "\"Bolt action\"",
+				SEMIAUTO: "\"Semiautomatico\"",
+				AUTO: "\"Automatic\"o"
+			},
+			NOISE: {
+				CQC: "\"CQC\"",
+				LOWNSE: "\"Basso\"",
+				MEDIUMNSE: "\"Medio\"",
+				HIGHNSE: "\"Alto\"",
+				VHIGHNSE: "\"Molto alto\""
+			},
+			WEAPONSPEED: {
+				NORMALSPD: "\"Normale\"",
+				SLOWSPD: "\"Lenta\"",
+				VSLOWSPD: "\"Molto lenta\""
+			},
+			RELOADSPEED: {
+				CQC: "\"CQC\"",
+				INSTANTRLD: "\"Istantanea\"",
+				NORMALRLD: "\"Normale\"",
+				SLOWRLD: "\"Lenta\"",
+				VSLOWRLD: "\"Molto lenta\""
+			},
+			AMMOTYPE: {
+				CQC: "\"CQC\"",
+				FUEL: "\"Carburante\"",
+				MM9: "\"9mm\"",
+				MM556: "\"556mm\"",
+				MM762: "\"762mm\"",
+				GAUGE12: "\"12gauge\"",
+				MM44: "\"44mm\"",
+				MM45: "\"45mm\"",
+				MM50: "\"50mm\"",
+				WIN300: "\"Win300\"",
+				GPACK: "\"G-pack\"",
+				RPG: "\"RPG\""
+			},
+			ATTACHMENTS: {
+				UNMODIFIABLE: "\"Non modificabile\"",
+				STOCK: "\"Stock\"",
+				TYPES: {
+					SCOPES: "\"Mirini\"",
+					MAGAZINE: "\"Caricatori\"",
+					BARREL: "\"Canna\"",
+					UNDERBARREL: "\"Sottocanna\""
+				},
+				SCOPES: {
+					REDDOT: "\"Red dot\"",
+					ACOG: "\"ACOG\"",
+					SIMPLETELESCOPIC: "\"Telescopico\"",
+					ADVANCEDTELESCOPIC: "\"Telescopico avanzato\""
+				},
+				MAGAZINE: {
+					EXTENDED: "\"Esteso\"",
+					BETACMAG: "\"BETA C-mag\"",
+					JUNGLESTYLE: "\"Jungle style\"",
+					EXTJUNGLESTYLE: "\"Jungle style esteso\""
+				},
+				BARREL: {
+					BAYONET: "\"Baionetta\"",
+					SUPPRESSOR: "\"Soppressore\"",
+					SILENCER: "\"Silenziatore\"",
+					BOOSTER: "\"Booster\""
+				},
+				UNDERBARREL: {
+					ERGONOMIC: "\"Ergonomica\"",
+					BIPOD: "\"Bipode\"",
+					GRANADELOUNCHER: "\"Lancia granate\"",
+					TORCH: "\"Torcia\""
+				}
+			},
+			PROTECTION: {
+				MEDKIT: "\"Med kit\"",
+				ARMOR1: "\"Armatura I\"",
+				ARMOR2: "\"Armatura II\""
+			},
+		}
+
+		function correct(input) {
+			input = input.replaceAll("id", "\"id\"")
+			input = input.replaceAll("Number", "\"Number\"")
+			input = input.replaceAll("name", "\"name\"")
+			input = input.replaceAll("weight", "\"weight\"")
+			input = input.replaceAll("type", "\"type\"")
+			input = input.replaceAll("class", "\"class\"")
+			input = input.replaceAll("range", "\"range\"")
+			input = input.replaceAll("damage", "\"damage\"")
+			input = input.replaceAll("precision", "\"precision\"")
+			input = input.replaceAll("fireRate", "\"fireRate\"")
+			input = input.replaceAll("stealth", "\"stealth\"")
+			input = input.replaceAll("noise", "\"noise\"")
+			input = input.replaceAll("reloadSpeed", "\"reloadSpeed\"")
+			input = input.replaceAll("weaponSpeed", "\"weaponSpeed\"")
+			input = input.replaceAll("magSize", "\"magSize\"")
+			input = input.replaceAll("ammoType", "\"ammoType\"")
+			input = input.replaceAll("recoil", "\"recoil\"")
+			input = input.replaceAll("attachments", "\"attachments\"")
+			input = input.replaceAll("isModifiable", "\"isModifiable\"")
+			input = input.replaceAll("scope", "\"scope\"")
+			input = input.replaceAll("magazine", "\"magazine\"")
+			input = input.replace("barrel", "\"barrel\"")
+			input = input.replaceAll("underbarrel", "\"underbarrel\"")
+			input = input.replaceAll("useRequirements", "\"useRequirements\"")
+
+			input = input.replaceAll("OHKRequirements", "\"OHKRequirements\"")
+			input = input.replaceAll("canBreakWalls", "\"canBreakWalls\"")
+			input = input.replaceAll("canShootThroughWalls", "\"canShootThroughWalls\"")
+			input = input.replaceAll("canFastEmptyMag", "\"canFastEmptyMag\"")
+			input = input.replaceAll("isBreakable", "\"isBreakable\"")
+			input = input.replaceAll("canMenomate", "\"canMenomate\"")
+			input = input.replaceAll("isCommon", "\"isCommon\"")
+			input = input.replaceAll("luckShot", "\"luckShot\"")
+			input = input.replaceAll("isPointlessToArmorII", "\"isPointlessToArmorII\"")
+
+			input = input.replaceAll("ENUM.UNSET", "\"Unset\"")
+
+			input = input.replaceAll("ENUM.AMMOTYPE.CQC", ENUM.AMMOTYPE.CQC)
+			input = input.replaceAll("ENUM.AMMOTYPE.FUEL", ENUM.AMMOTYPE.FUEL)
+			input = input.replaceAll("ENUM.AMMOTYPE.GAUGE12", ENUM.AMMOTYPE.GAUGE12)
+			input = input.replaceAll("ENUM.AMMOTYPE.GPACK", ENUM.AMMOTYPE.GPACK)
+			input = input.replaceAll("ENUM.AMMOTYPE.MM44", ENUM.AMMOTYPE.MM44)
+			input = input.replaceAll("ENUM.AMMOTYPE.MM45", ENUM.AMMOTYPE.MM45)
+			input = input.replaceAll("ENUM.AMMOTYPE.MM50", ENUM.AMMOTYPE.MM50)
+			input = input.replaceAll("ENUM.AMMOTYPE.MM556", ENUM.AMMOTYPE.MM556)
+			input = input.replaceAll("ENUM.AMMOTYPE.MM762", ENUM.AMMOTYPE.MM762)
+			input = input.replaceAll("ENUM.AMMOTYPE.MM9", ENUM.AMMOTYPE.MM9)
+			input = input.replaceAll("ENUM.AMMOTYPE.RPG", ENUM.AMMOTYPE.RPG)
+			input = input.replaceAll("ENUM.AMMOTYPE.WIN300", ENUM.AMMOTYPE.WIN300)
+
+			input = input.replaceAll("ENUM.ATTACHMENTS.UNMODIFIABLE", ENUM.ATTACHMENTS.UNMODIFIABLE)
+			input = input.replaceAll("ENUM.ATTACHMENTS.STOCK", ENUM.ATTACHMENTS.STOCK)
+
+			input = input.replaceAll("ENUM.CLASS.ASSAULTRIFLE", ENUM.CLASS.ASSAULTRIFLE)
+			input = input.replaceAll("ENUM.CLASS.ATTACHMENT", ENUM.CLASS.ATTACHMENT)
+			input = input.replaceAll("ENUM.CLASS.CQC", ENUM.CLASS.CQC)
+			input = input.replaceAll("ENUM.CLASS.EXPLOSIVE", ENUM.CLASS.EXPLOSIVE)
+			input = input.replaceAll("ENUM.CLASS.LMG", ENUM.CLASS.LMG)
+			input = input.replaceAll("ENUM.CLASS.MINIGUN", ENUM.CLASS.MINIGUN)
+			input = input.replaceAll("ENUM.CLASS.OTHER", ENUM.CLASS.OTHER)
+			input = input.replaceAll("ENUM.CLASS.PISTOL", ENUM.CLASS.PISTOL)
+			input = input.replaceAll("ENUM.CLASS.SHOTGUN", ENUM.CLASS.SHOTGUN)
+			input = input.replaceAll("ENUM.CLASS.SMG", ENUM.CLASS.SMG)
+			input = input.replaceAll("ENUM.CLASS.SNIPER", ENUM.CLASS.SNIPER)
+
+			input = input.replaceAll("ENUM.DAMAGE.HIGHDMG", ENUM.DAMAGE.HIGHDMG)
+			input = input.replaceAll("ENUM.DAMAGE.LOWDMG", ENUM.DAMAGE.LOWDMG)
+			input = input.replaceAll("ENUM.DAMAGE.MEDIUMDMG", ENUM.DAMAGE.MEDIUMDMG)
+			input = input.replaceAll("ENUM.DAMAGE.OHKDMG", ENUM.DAMAGE.OHKDMG)
+			input = input.replaceAll("ENUM.DAMAGE.STUNDMG", ENUM.DAMAGE.STUNDMG)
+			input = input.replaceAll("ENUM.DAMAGE.VHIGHDMG", ENUM.DAMAGE.VHIGHDMG)
+
+			input = input.replaceAll("ENUM.FIRERATE.AUTO", ENUM.FIRERATE.AUTO)
+			input = input.replaceAll("ENUM.FIRERATE.BOLTACTION", ENUM.FIRERATE.BOLTACTION)
+			input = input.replaceAll("ENUM.FIRERATE.CQC", ENUM.FIRERATE.CQC)
+			input = input.replaceAll("ENUM.FIRERATE.SEMIAUTO", ENUM.FIRERATE.SEMIAUTO)
+
+			input = input.replaceAll("ENUM.NOISE.CQC", ENUM.NOISE.CQC)
+			input = input.replaceAll("ENUM.NOISE.HIGHNSE", ENUM.NOISE.HIGHNSE)
+			input = input.replaceAll("ENUM.NOISE.LOWNSE", ENUM.NOISE.LOWNSE)
+			input = input.replaceAll("ENUM.NOISE.MEDIUMNSE", ENUM.NOISE.MEDIUMNSE)
+			input = input.replaceAll("ENUM.NOISE.VHIGHNSE", ENUM.NOISE.VHIGHNSE)
+
+			input = input.replaceAll("ENUM.PROTECTION.ARMOR1", ENUM.PROTECTION.ARMOR1)
+			input = input.replaceAll("ENUM.PROTECTION.ARMOR2", ENUM.PROTECTION.ARMOR2)
+			input = input.replaceAll("ENUM.PROTECTION.MEDKIT", ENUM.PROTECTION.MEDKIT)
+
+			input = input.replaceAll("ENUM.RANGE.CQC", ENUM.RANGE.CQC)
+			input = input.replaceAll("ENUM.RANGE.LONGRNG", ENUM.RANGE.LONGRNG)
+			input = input.replaceAll("ENUM.RANGE.LOWRNG", ENUM.RANGE.LOWRNG)
+			input = input.replaceAll("ENUM.RANGE.MEDIUMRNG", ENUM.RANGE.MEDIUMRNG)
+			input = input.replaceAll("ENUM.RANGE.VLONGRNG", ENUM.RANGE.VLONGRNG)
+			input = input.replaceAll("ENUM.RANGE.XTREMERNG", ENUM.RANGE.XTREMERNG)
+
+			input = input.replaceAll("ENUM.RELOADSPEED.CQC", ENUM.RELOADSPEED.CQC)
+			input = input.replaceAll("ENUM.RELOADSPEED.INSTANTRLD", ENUM.RELOADSPEED.INSTANTRLD)
+			input = input.replaceAll("ENUM.RELOADSPEED.NORMALRLD", ENUM.RELOADSPEED.NORMALRLD)
+			input = input.replaceAll("ENUM.RELOADSPEED.SLOWRLD", ENUM.RELOADSPEED.SLOWRLD)
+			input = input.replaceAll("ENUM.RELOADSPEED.VSLOWRLD", ENUM.RELOADSPEED.VSLOWRLD)
+
+			input = input.replaceAll("ENUM.TYPE.RGDCQC", ENUM.TYPE.RGDCQC)
+			input = input.replaceAll("ENUM.TYPE.CQC1h", ENUM.TYPE.CQC1h)
+			input = input.replaceAll("ENUM.TYPE.CQC2h", ENUM.TYPE.CQC2h)
+			input = input.replaceAll("ENUM.TYPE.RGD1h", ENUM.TYPE.RGD1h)
+			input = input.replaceAll("ENUM.TYPE.RGD2h", ENUM.TYPE.RGD2h)
+			input = input.replaceAll("ENUM.TYPE.RGDhh", ENUM.TYPE.RGDhh)
+
+			input = input.replaceAll("ENUM.WEAPONSPEED.NORMALSPD", ENUM.WEAPONSPEED.NORMALSPD)
+			input = input.replaceAll("ENUM.WEAPONSPEED.SLOWSPD", ENUM.WEAPONSPEED.SLOWSPD)
+			input = input.replaceAll("ENUM.WEAPONSPEED.VSLOWSPD", ENUM.WEAPONSPEED.VSLOWSPD)
+
+			input = input.replace(/S: /, "\"S\": ")
+			input = input.replace(/P: /, "\"P\": ")
+			input = input.replace(/E: /, "\"E\": ")
+			input = input.replace(/C: /, "\"C\": ")
+			input = input.replace(/I: /, "\"I\": ")
+			input = input.replace(/A: /, "\"A\": ")
+			input = input.replace(/L: /, "\"L\": ")
+
+			input = input.replaceAll("{}", "null")
+
+			return input
+		}
+
+		function traduci() {
+			var input = document.getElementById("input").value
+
+			var weapon = JSON.parse(correct(input))
+
+			var output = "<b>" + weapon.name + "</b> (" + weapon.weight + "kg)" + "<br>";
+
+			if (weapon.class == "CQC") {
+				output += "<ul>" + "<li>" + "Danno: " + weapon.damage + "</li>";
+
+				if (weapon.stealth != "Unset") {
+					output += "<li>" + "Stealth: " + weapon.stealth + "</li>";
+				}
+
+				if (weapon.useRequirements != null) {
+					output += "<li>" + "Requisiti: " + JSON.stringify(weapon.useRequirements).slice(1, -1).replace(":", " ≥ ").replaceAll("\"", "") + "</li>";
+				}
+
+				if (weapon.canBreakWalls || weapon.canShootThroughWalls || weapon.canFastEmptyMag || weapon.isBreakable || weapon.canMenomate || weapon.isCommon || weapon.luckShot || weapon.isPointlessToArmorII) {
+					output += "<li>" + "Altro: ";
+
+					// if (weapon.canBreakWalls) {
+					// 	output += "<li>" + "Altro: ";
+					// }
+				}
+
+				output += "</ul>";
+			}
+
+
+
+
+			document.getElementById("output").innerHTML = output
+		}
+	</script>
