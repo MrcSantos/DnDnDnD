@@ -263,6 +263,14 @@
 			input = input.replaceAll(/A: /g, "\"A\": ")
 			input = input.replaceAll(/L: /g, "\"L\": ")
 
+			input = input.replaceAll("TANTODMG()", "\"A - S - 1\"")
+			input = input.replaceAll("TANTOSTL()", "\"A - S\"")
+
+			input = input.replaceAll("KATANADMG()", "\"A - S\"")
+			input = input.replaceAll("KATANASTL()", "\"(A - S) * 2\"")
+
+			input = input.replaceAll("RGDCQCPrecision()", "\"(P + A) * 10\"")
+
 			input = input.replaceAll("{}", "null")
 
 			return input
