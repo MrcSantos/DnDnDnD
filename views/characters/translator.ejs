@@ -255,13 +255,13 @@
 			input = input.replaceAll("ENUM.WEAPONSPEED.SLOWSPD", ENUM.WEAPONSPEED.SLOWSPD)
 			input = input.replaceAll("ENUM.WEAPONSPEED.VSLOWSPD", ENUM.WEAPONSPEED.VSLOWSPD)
 
-			input = input.replace(/S: /, "\"S\": ")
-			input = input.replace(/P: /, "\"P\": ")
-			input = input.replace(/E: /, "\"E\": ")
-			input = input.replace(/C: /, "\"C\": ")
-			input = input.replace(/I: /, "\"I\": ")
-			input = input.replace(/A: /, "\"A\": ")
-			input = input.replace(/L: /, "\"L\": ")
+			input = input.replaceAll(/S: /g, "\"S\": ")
+			input = input.replaceAll(/P: /g, "\"P\": ")
+			input = input.replaceAll(/E: /g, "\"E\": ")
+			input = input.replaceAll(/C: /g, "\"C\": ")
+			input = input.replaceAll(/I: /g, "\"I\": ")
+			input = input.replaceAll(/A: /g, "\"A\": ")
+			input = input.replaceAll(/L: /g, "\"L\": ")
 
 			input = input.replaceAll("{}", "null")
 
@@ -322,6 +322,20 @@
 
 					for (let index = 0; index < useRequirements.length; index++) {
 						const element = useRequirements[index];
+
+						output += "<li>" + JSON.stringify(element).slice(1, -1).replace(":", " ≥ ").replaceAll('"', "").replaceAll("{", "").replaceAll("}", "").replaceAll("\\", "") + "</li>"
+					}
+
+					output += "</ul></li>";
+				}
+
+				if (weapon.OHKRequirements != null) {
+					output += "<li>" + "OHK con:" + "<ul>";
+
+					var OHKRequirements = JSON.stringify(weapon.OHKRequirements).split(",")
+
+					for (let index = 0; index < OHKRequirements.length; index++) {
+						const element = OHKRequirements[index];
 
 						output += "<li>" + JSON.stringify(element).slice(1, -1).replace(":", " ≥ ").replaceAll('"', "").replaceAll("{", "").replaceAll("}", "").replaceAll("\\", "") + "</li>"
 					}
