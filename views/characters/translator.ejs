@@ -37,7 +37,7 @@
 				PISTOL: "\"Pistola\"",
 				SHOTGUN: "\"Shotgun\"",
 				SMG: "\"SMG\"",
-				ASSAULTRIFLE: "\"Fucile\" d'assalto",
+				ASSAULTRIFLE: "\"Fucile d'assalto\"",
 				SNIPER: "\"Fucile\" cecchino",
 				LMG: "\"LMG\"",
 				MINIGUN: "\"Minigun\"",
@@ -50,7 +50,7 @@
 				LOWRNG: "\"Basso\"",
 				MEDIUMRNG: "\"Medio\"",
 				LONGRNG: "\"Lungo\"",
-				VLONGRNG: "\"Molto\" lungo",
+				VLONGRNG: "\"Molto lungo\"",
 				XTREMERNG: "\"Estremo\""
 			},
 			DAMAGE: {
@@ -58,14 +58,14 @@
 				LOWDMG: "\"Basso\"",
 				MEDIUMDMG: "\"Medio\"",
 				HIGHDMG: "\"Alto\"",
-				VHIGHDMG: "\"Molto\" alto",
+				VHIGHDMG: "\"Molto alto\"",
 				OHKDMG: "\"OHK\""
 			},
 			FIRERATE: {
 				CQC: "\"CQC\"",
 				BOLTACTION: "\"Bolt action\"",
-				SEMIAUTO: "\"Semiautomatico\"",
-				AUTO: "\"Automatic\"o"
+				SEMIAUTO: "\"Semiauto\"",
+				AUTO: "\"Auto\""
 			},
 			NOISE: {
 				CQC: "\"CQC\"",
@@ -142,6 +142,8 @@
 		}
 
 		function correct(input) {
+			if (input.slice(-1) == ",") { input = input.slice(0, -1) }
+
 			input = input.replaceAll("id", "\"id\"")
 			input = input.replaceAll("Number", "\"Number\"")
 			input = input.replaceAll("name", "\"name\"")
@@ -161,10 +163,10 @@
 			input = input.replaceAll("recoil", "\"recoil\"")
 			input = input.replaceAll("attachments", "\"attachments\"")
 			input = input.replaceAll("isModifiable", "\"isModifiable\"")
-			input = input.replaceAll("scope", "\"scope\"")
-			input = input.replaceAll("magazine", "\"magazine\"")
-			input = input.replace("barrel", "\"barrel\"")
-			input = input.replaceAll("underbarrel", "\"underbarrel\"")
+			input = input.replaceAll("scope", "\"Mirino\"")
+			input = input.replaceAll("magazine", "\"Caricatore\"")
+			input = input.replaceAll("underbarrel", "\"Sottocanna\"")
+			input = input.replaceAll("barrel", "\"Canna\"")
 			input = input.replaceAll("useRequirements", "\"useRequirements\"")
 
 			input = input.replaceAll("OHKRequirements", "\"OHKRequirements\"")
@@ -269,35 +271,85 @@
 		function traduci() {
 			var input = document.getElementById("input").value
 
-			var weapon = JSON.parse(correct(input))
 
-			var output = "<b>" + weapon.name + "</b> (" + weapon.weight + "kg)" + "<br>";
+			try {
+				var weapon = JSON.parse(correct(input))
 
-			if (weapon.class == "CQC") {
-				output += "<ul>" + "<li>" + "Danno: " + weapon.damage + "</li>";
+				var output = "<b>" + weapon.name + "</b> (" + weapon.weight + "kg - " + weapon.type + " - " + weapon.class + ") (<b>" + Date.now() + "</b>)" + "<br>";
 
-				if (weapon.stealth != "Unset") {
-					output += "<li>" + "Stealth: " + weapon.stealth + "</li>";
+				// Armi CQC
+				if (weapon.type == "CQC1h" || weapon.type == "CQC2h") {
+					output += "<ul>" + "<li>" + "Danno: " + weapon.damage + "</li>";
+
+					if (weapon.stealth != "Unset") {
+						output += "<li>" + "Stealth: " + weapon.stealth + "</li>";
+					}
+				}
+
+				// Armi RGD
+				if (weapon.type == "RGD1h" || weapon.type == "RGD2h" || weapon.type == "RGDhh") {
+					output += "<ul>" + "<li>" + "Danno: " + weapon.damage + "</li>";
+					output += "<li>" + "Precisione: " + weapon.precision + "%" + "</li>";
+					output += "<li>" + "Ammo: " + weapon.magSize + " x " + weapon.ammoType + " (" + weapon.fireRate + ")" + "</li>";
+					output += "<li>" + "Ricarica: " + weapon.reloadSpeed + "</li>";
+					output += "<li>" + "Velocità: " + weapon.weaponSpeed + "</li>";
+					output += "<li>" + "Rinculo: " + weapon.recoil + "%" + "</li>";
+
+					if (weapon.stealth != "Unset") { output += "<li>" + "Stealth: " + weapon.stealth + "</li>" }
+					output += "<li>" + "Rumore: " + weapon.noise + "</li>";
+				}
+
+				if (weapon.attachments.isModifiable) {
+					output += "<li>" + "Modifiche:" + "<ul>";
+
+					var attachments = JSON.stringify(weapon.attachments).split(",")
+
+					for (let index = 1; index < attachments.length; index++) {
+						const element = attachments[index];
+
+						output += "<li>" + JSON.stringify(element).slice(1, -1).replace(":", ": ").replaceAll('"', "").replaceAll("{", "").replaceAll("}", "").replaceAll("\\", "") + "</li>"
+					}
+
+					output += "</ul></li>";
+				} else {
+					output += "<li>" + "Accessori: Non modificabile" + "</li>";
 				}
 
 				if (weapon.useRequirements != null) {
-					output += "<li>" + "Requisiti: " + JSON.stringify(weapon.useRequirements).slice(1, -1).replace(":", " ≥ ").replaceAll("\"", "") + "</li>";
+					output += "<li>" + "Requisiti:" + "<ul>";
+
+					var useRequirements = JSON.stringify(weapon.useRequirements).split(",")
+
+					for (let index = 0; index < useRequirements.length; index++) {
+						const element = useRequirements[index];
+
+						output += "<li>" + JSON.stringify(element).slice(1, -1).replace(":", " ≥ ").replaceAll('"', "").replaceAll("{", "").replaceAll("}", "").replaceAll("\\", "") + "</li>"
+					}
+
+					output += "</ul></li>";
 				}
 
 				if (weapon.canBreakWalls || weapon.canShootThroughWalls || weapon.canFastEmptyMag || weapon.isBreakable || weapon.canMenomate || weapon.isCommon || weapon.luckShot || weapon.isPointlessToArmorII) {
-					output += "<li>" + "Altro: ";
+					output += "<li>" + "Altro:" + "<ul>";
 
-					// if (weapon.canBreakWalls) {
-					// 	output += "<li>" + "Altro: ";
-					// }
+					if (weapon.canBreakWalls) output += "<li>" + "Può rompere i muri" + "</li>"
+					if (weapon.canShootThroughWalls) output += "<li>" + "Può sparare attraverso i muri" + "</li>"
+					if (weapon.canFastEmptyMag) output += "<li>" + "Può scaricare il caricatore in un'azione" + "</li>"
+					if (weapon.isBreakable) output += "<li>" + "Si rompe facilmente" + "</li>"
+					if (weapon.canMenomate) output += "<li>" + "Menoma facilmente" + "</li>"
+					if (weapon.isCommon) output += "<li>" + "Arma comune" + "</li>"
+					if (weapon.luckShot) output += "<li>" + "Ha bisogno di un tiro L aggiungivo" + "</li>"
+					if (weapon.isPointlessToArmorII) output += "<li>" + "Inutile contro l'armatura II" + "</li>"
+
+					output += "</ul></li>";
 				}
 
 				output += "</ul>";
+
+				document.getElementById("output").innerHTML = output
+			} catch (error) {
+				document.getElementById("output").innerHTML = "Non ce l'ho fatta culina gno gno, dillo a Mirco, lui saprà cosa fare<br>" + error
+				console.log(correct(input));
 			}
-
-
-
-
-			document.getElementById("output").innerHTML = output
 		}
 	</script>
